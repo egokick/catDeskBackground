@@ -1,0 +1,127 @@
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+
+  	body {    
+    background-image: url("https://i.imgur.com/0IWb7dn.gif");
+     overflow:hidden;
+}
+
+  </style>
+
+
+
+
+<script src="https://threejs.org/build/three.js"></script>  
+<script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>  
+
+
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+  
+</head>
+
+<body>
+
+<div id = "container"></div>
+
+</body>
+
+<script>
+
+	const WIDTH = 600;
+	const HEIGHT = 300;
+
+	const VIEW_ANGLE = 45;
+	const ASPECT = WIDTH / HEIGHT;	
+	const NEAR = 0.1;
+	const FAR = 10000;
+
+	const sphereMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000});
+
+	const pointLight =
+  new THREE.PointLight(0xFFFFFF);
+
+	// set its position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+
+	const RADIUS = 50;
+	const SEGMENTS = 16;
+	const RINGS = 16;	
+
+	const sphere = new THREE.Mesh(
+		new THREE.SphereGeometry(RADIUS,
+			SEGMENTS,
+			RINGS),
+
+		sphereMaterial)
+
+	sphere.position.z = -300;
+
+	const container = document.querySelector('#container')
+
+	const renderer = new THREE.WebGLRenderer();
+	const camera = new THREE.PerspectiveCamera(
+		VIEW_ANGLE,
+		ASPECT,
+		NEAR,
+		FAR);
+
+var direction = 1;
+
+  function byte2Hex(n)
+  {
+    var nybHexString = "0123456789ABCDEF";
+    return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+  }
+
+ function RGB2Color(r,g,b)
+  {
+    return '0x' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+  }
+
+
+
+	function update () {
+	  // Draw!
+	  if(sphere.position.z > -50 
+	  	|| sphere.position.z < -300 ){
+	  	direction *= -1;	  	
+	  }
+	
+	sphere.position.z += direction;
+
+	 // console.log(sphere.position.z);
+	  renderer.render(scene, camera);
+
+	  // Schedule the next frame.
+	  requestAnimationFrame(update);
+	}
+
+
+	const scene = new THREE.Scene();
+
+	// add to the scene
+	scene.add(pointLight);
+
+	scene.add(sphere);
+
+	scene.add(camera);
+
+	renderer.setSize(WIDTH, HEIGHT);
+
+	container.appendChild(renderer.domElement);
+
+	renderer.render(scene,camera);
+
+	requestAnimationFrame(update);
+
+
+  </script>
+  
+</html>
