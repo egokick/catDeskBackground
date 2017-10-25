@@ -72,7 +72,54 @@
 		NEAR,
 		FAR);
 
-var direction = 1;
+	var movementDirection = 1;
+	var hexColor1 = 0x42eef4;
+	var hexColor2 = 0x46f441;
+	var i = 0;
+	var frequency = .3;
+	var amplitude = 127;
+	var center = 128;
+
+	var color1 = [51,252,255]; // BLUE
+	var color2 = [1,193,38]; // Green
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function colorGradient() {
+	
+	if (movementDirection > 0)
+	{
+		return hexColor1;
+	}
+	else
+	{
+		return hexColor2;
+	}
+}
+
+function colortest(i,rgb)
+{	
+	 return Math.ceil(Math.sin(frequency * i) 
+	 * amplitude + center);
+}
+
 
   function byte2Hex(n)
   {
@@ -85,45 +132,100 @@ var direction = 1;
     return '0x' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
   }
 
-
-var hexColor1 = 0x42eef4;
-var hexColor2 = 0x46f441;
-
-function colorGradient() {
-	
-	if (direction > 0)
-	{
-		return hexColor1;
-	}
-	else
-	{
-		return hexColor2;
-	}
+function refreshGlobalVariables(){
+		i+= 0.1;
 }
 
-	var i = 0;
+function midRGB(){
 
-	function update () {
+	var rgb = [0,0,0];
 
-	//console.log(Math.sin(i));
-	i+= 0.1;
+	 rgb[0] = ((color1[0] + color2[0]) / 2);
+	 rgb[1] = ((color1[1] + color2[1]) / 2);
+	 rgb[2] = ((color1[2] + color2[2]) / 2);
+	
+	return rgb;
+}
 
-	  // Draw!
-	  if(sphere.position.z > -50 
-	  	|| sphere.position.z < -300 ){
-	  	direction *= -1;	  	
-	  }
-	sphere.material.color.setHex(colorGradient());
-	sphere.position.z += direction;
-	sphere.position.y += Math.sin(i);
-	sphere.position.x -= Math.sin(i) * 6;
+function colorAmplitude(){
+	return midRGB();
+}
 
-	 // console.log(sphere.position.z);
-	  renderer.render(scene, camera);
 
-	  // Schedule the next frame.
-	  requestAnimationFrame(update);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function update ()
+	{	
+		refreshGlobalVariables();
+
+		
+		if(sphere.position.z > -50 
+			|| sphere.position.z < -300 ){
+			movementDirection *= -1;	  	
+		}
+
+		console.log(midRGB());
+
+
+		sphere.material.color.setHex(colorGradient());
+		sphere.position.z += movementDirection;
+		sphere.position.y += Math.sin(i);
+		sphere.position.x -= Math.sin(i) * 6;
+
+		// console.log(sphere.position.z);
+		renderer.render(scene, camera);
+
+		// Schedule the next frame.
+		requestAnimationFrame(update);
+
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	const scene = new THREE.Scene();
