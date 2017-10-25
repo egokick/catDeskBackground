@@ -86,15 +86,37 @@ var direction = 1;
   }
 
 
+var hexColor1 = 0x42eef4;
+var hexColor2 = 0x46f441;
+
+function colorGradient() {
+	
+	if (direction > 0)
+	{
+		return hexColor1;
+	}
+	else
+	{
+		return hexColor2;
+	}
+}
+
+	var i = 0;
 
 	function update () {
+
+	//console.log(Math.sin(i));
+	i+= 0.1;
+
 	  // Draw!
 	  if(sphere.position.z > -50 
 	  	|| sphere.position.z < -300 ){
 	  	direction *= -1;	  	
 	  }
-	
+	sphere.material.color.setHex(colorGradient());
 	sphere.position.z += direction;
+	sphere.position.y += Math.sin(i);
+	sphere.position.x -= Math.sin(i) * 6;
 
 	 // console.log(sphere.position.z);
 	  renderer.render(scene, camera);
