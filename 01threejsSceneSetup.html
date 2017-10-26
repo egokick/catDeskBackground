@@ -151,23 +151,38 @@ function colorAmplitude(){
 	return midRGB();
 }
 
+function colorGradTest(i){
+	var frequency = .3;
+	var amplitude = colorAmplitude();
+	var center =  colorAmplitude();
+
+	var rgb = [0,0,0];
+
+	rgb[0] = Math.sin(frequency * i) * amplitude[0] + center[0];
+	rgb[1] = Math.sin(frequency * i) * amplitude[1] + center[1];
+	rgb[2] = Math.sin(frequency * i) * amplitude[2] + center[2];
+
+	return rgb;
+}
 
 
+function gradientColor2(i)
+{
+	return rgbToHex(colorGradTest(i));
+}
+
+function rgbToHex(rgb){
+	var hex = '0x' + byte2Hex(rgb[0]) + byte2Hex(rgb[1]) + byte2Hex(rgb[2]);
+	
+	return hex;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+function byte2Hex(n)
+  {
+    var nybHexString = "0123456789ABCDEF";
+    return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
+  }
 
 
 
@@ -190,17 +205,15 @@ function colorAmplitude(){
 	function update ()
 	{	
 		refreshGlobalVariables();
-
 		
 		if(sphere.position.z > -50 
 			|| sphere.position.z < -300 ){
 			movementDirection *= -1;	  	
 		}
 
-		console.log(midRGB());
+		console.log(gradientColor2(i));
 
-
-		sphere.material.color.setHex(colorGradient());
+		sphere.material.color.setHex(gradientColor2(i));
 		sphere.position.z += movementDirection;
 		sphere.position.y += Math.sin(i);
 		sphere.position.x -= Math.sin(i) * 6;
