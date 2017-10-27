@@ -65,7 +65,7 @@
 
 	const container = document.querySelector('#container')
 
-	const renderer = new THREE.WebGLRenderer();
+	const renderer = new THREE.WebGLRenderer( { alpha: true } );
 	const camera = new THREE.PerspectiveCamera(
 		VIEW_ANGLE,
 		ASPECT,
@@ -80,8 +80,12 @@
 	var amplitude = 127;
 	var center = 128;
 
-	var color1 = [51,252,255]; // BLUE
-	var color2 = [1,193,38]; // Green
+
+//var color1 = [51,252,255]; // BLUE
+	//var color2 = [1,193,38]; // Green
+
+	var color1 = [66,232,244]; // BLUE
+	var color2 = [204,10,181]; // Green
 
 
 
@@ -99,7 +103,13 @@
 
 
 
-
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
 
 
 function colorGradient() {
@@ -114,14 +124,8 @@ function colorGradient() {
 	}
 }
 
-function colortest(i,rgb)
-{	
-	 return Math.ceil(Math.sin(frequency * i) 
-	 * amplitude + center);
-}
 
-
-  function byte2Hex(n)
+function byte2Hex(n)
   {
     var nybHexString = "0123456789ABCDEF";
     return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
@@ -151,24 +155,30 @@ function colorAmplitude(){
 	return midRGB();
 }
 
-function colorGradTest(i){
-	var frequency = .3;
-	var amplitude = colorAmplitude();
-	var center =  colorAmplitude();
+function gradientColorRGB(i){
+	var frequency = .1;
 
-	var rgb = [0,0,0];
+//https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
+// slope = (output_end - output_start) / (input_end - input_start)
+// output = output_start + slope * (input - input_start)
 
-	rgb[0] = Math.sin(frequency * i) * amplitude[0] + center[0];
-	rgb[1] = Math.sin(frequency * i) * amplitude[1] + center[1];
-	rgb[2] = Math.sin(frequency * i) * amplitude[2] + center[2];
+	var slope = [(color1[0] - color2[0]) / (3-1)
+	, (color1[1] - color2[1]) / (3-1)
+	, (color1[2] - color2[2]) / (3-1)];
+
+//	var outputTST = color2[0] + slope[0] * (1.5 - 1);
+
+	var rgb = [color2[0] + slope[0] * ( (Math.sin(i * frequency)+2) - 1)
+	, color2[1] + slope[1] * ( (Math.sin(i * frequency)+2) - 1)
+	, color2[2] + slope[2] * ( (Math.sin(i * frequency)+2) - 1)];
 
 	return rgb;
 }
 
 
-function gradientColor2(i)
+function gradientColorHEX(i)
 {
-	return rgbToHex(colorGradTest(i));
+	return rgbToHex(gradientColorRGB(i));
 }
 
 function rgbToHex(rgb){
@@ -211,9 +221,12 @@ function byte2Hex(n)
 			movementDirection *= -1;	  	
 		}
 
-		console.log(gradientColor2(i));
+		    
+		//console.log(gradientColorRGB(i));
+		
+		//wait(100);
 
-		sphere.material.color.setHex(gradientColor2(i));
+		sphere.material.color.setHex(gradientColorHEX(i));
 		sphere.position.z += movementDirection;
 		sphere.position.y += Math.sin(i);
 		sphere.position.x -= Math.sin(i) * 6;
