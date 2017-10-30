@@ -80,10 +80,30 @@
 	var amplitude = 127;
 	var center = 128;
 
+	//keyup down helper
+	var Key = {
+	  _pressed: {},
 
-//var color1 = [51,252,255]; // BLUE
-	//var color2 = [1,193,38]; // Green
+	  LEFT: 37,
+	  UP: 38,
+	  RIGHT: 39,
+	  DOWN: 40,
+	  
+	  isDown: function(keyCode) {
+	    return this._pressed[keyCode];
+	  },
+	  
+	  onKeydown: function(event) {
+	    this._pressed[event.keyCode] = true;
+	  },
+	  
+	  onKeyup: function(event) {
+	    delete this._pressed[event.keyCode];
+	  }
+	};
 
+
+	//blue - purple gradient
 	var color1 = [66,232,244]; // BLUE
 	var color2 = [204,10,181]; // Green
 
@@ -156,7 +176,7 @@ function colorAmplitude(){
 }
 
 function gradientColorRGB(i){
-	var frequency = .1;
+	var frequency = .25;
 
 //https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
 // slope = (output_end - output_start) / (input_end - input_start)
@@ -195,64 +215,36 @@ function byte2Hex(n)
   }
 
 
+function onDocumentKeyDown(event){
 
+	var delta = 5;
+	
+	var keycode = event.keyCode;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	function update ()
-	{	
-		refreshGlobalVariables();
-		
-		if(sphere.position.z > -50 
-			|| sphere.position.z < -300 ){
-			movementDirection *= -1;	  	
-		}
-
-		    
-		//console.log(gradientColorRGB(i));
-		
-		//wait(100);
-
-		sphere.material.color.setHex(gradientColorHEX(i));
-		sphere.position.z += movementDirection;
-		sphere.position.y += Math.sin(i);
-		sphere.position.x -= Math.sin(i) * 6;
-
-		// console.log(sphere.position.z);
-		renderer.render(scene, camera);
-
-		// Schedule the next frame.
-		requestAnimationFrame(update);
-
+	switch(keycode)
+	{
+		case 37 : //left arrow 向左箭头
+		sphere.position.x +=  - delta;
+		break;
+		case 38 : // up arrow 向上箭头
+		sphere.position.y +=  + delta;
+		break;
+		case 39 : // right arrow 向右箭头
+		sphere.position.x +=  + delta;
+		break;
+		case 40 : //down arrow向下箭头
+		sphere.position.y +=  - delta;
+		break;
 	}
+}
+
+function onDocumentKeyUp(){
+
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+	document.addEventListener('keydown',onDocumentKeyDown,false);
+	document.addEventListener('keyup',onDocumentKeyUp,false);
 
 	const scene = new THREE.Scene();
 
@@ -269,7 +261,33 @@ function byte2Hex(n)
 
 	renderer.render(scene,camera);
 
-	requestAnimationFrame(update);
+	requestAnimationFrame(gameloop);
+
+
+	function gameloop ()
+	{	
+		refreshGlobalVariables();
+		
+		sphere.material.color.setHex(gradientColorHEX(i));
+
+		if(sphere.position.z > -50 
+			|| sphere.position.z < -300 ){
+			movementDirection *= -1;	  	
+		}
+	
+
+		// sphere.position.z += movementDirection;
+		 sphere.position.y += Math.sin(i);
+		// sphere.position.x -= Math.sin(i) * 6;
+
+		// console.log(sphere.position.z);
+		renderer.render(scene, camera);
+
+		// Schedule the next frame.
+		requestAnimationFrame(gameloop);
+
+	}
+
 
 
   </script>
