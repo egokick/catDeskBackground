@@ -42,26 +42,45 @@
 
 	const sphereMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000});
 
-	const pointLight =
-  new THREE.PointLight(0xFFFFFF);
+	const pointLight = new THREE.PointLight(0xFFFFFF);
 
 	// set its position
 	pointLight.position.x = 10;
 	pointLight.position.y = 50;
 	pointLight.position.z = 130;
 
+function Sphere(){
+	
+	var radius = 50;
+	var segments = 16;
+	var rings = 16;
+	
+	this.texture = new THREE.MeshLambertMaterial({color: 0xCC0000});
+
+	this.obj = new THREE.Mesh(
+		new  THREE.SphereGeometry(radius,
+			segments,
+			rings),
+
+		this.texture)
+
+	this.obj.position.z = -300;
+
+
+}
 	const RADIUS = 50;
 	const SEGMENTS = 16;
 	const RINGS = 16;	
 
-	const sphere = new THREE.Mesh(
-		new THREE.SphereGeometry(RADIUS,
-			SEGMENTS,
-			RINGS),
+	var sphere = new Sphere();
+	// const sphere = new THREE.Mesh(
+	// 	new THREE.SphereGeometry(RADIUS,
+	// 		SEGMENTS,
+	// 		RINGS),
 
-		sphereMaterial)
+	// 	sphereMaterial)
 
-	sphere.position.z = -300;
+	//sphere.position.z = -300;
 
 	const container = document.querySelector('#container')
 
@@ -224,16 +243,16 @@ function onDocumentKeyDown(event){
 	switch(keycode)
 	{
 		case 37 : //left arrow 向左箭头
-		sphere.position.x +=  - delta;
+		sphere.obj.position.x +=  - delta;
 		break;
 		case 38 : // up arrow 向上箭头
-		sphere.position.y +=  + delta;
+		sphere.obj.position.y +=  + delta;
 		break;
 		case 39 : // right arrow 向右箭头
-		sphere.position.x +=  + delta;
+		sphere.obj.position.x +=  + delta;
 		break;
 		case 40 : //down arrow向下箭头
-		sphere.position.y +=  - delta;
+		sphere.obj.position.y +=  - delta;
 		break;
 	}
 }
@@ -251,7 +270,7 @@ function onDocumentKeyUp(){
 	// add to the scene
 	scene.add(pointLight);
 
-	scene.add(sphere);
+	scene.add(sphere.obj);
 
 	scene.add(camera);
 
@@ -268,16 +287,16 @@ function onDocumentKeyUp(){
 	{	
 		refreshGlobalVariables();
 		
-		sphere.material.color.setHex(gradientColorHEX(i));
+		sphere.texture.color.setHex(gradientColorHEX(i));
 
-		if(sphere.position.z > -50 
-			|| sphere.position.z < -300 ){
+		if(sphere.obj.position.z > -50 
+			|| sphere.obj.position.z < -300 ){
 			movementDirection *= -1;	  	
 		}
 	
 
 		// sphere.position.z += movementDirection;
-		 sphere.position.y += Math.sin(i);
+		 sphere.obj.position.y += Math.sin(i);
 		// sphere.position.x -= Math.sin(i) * 6;
 
 		// console.log(sphere.position.z);
