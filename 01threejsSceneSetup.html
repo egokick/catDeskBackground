@@ -32,8 +32,14 @@
 
 <script>
 
-	const WIDTH = 600;
-	const HEIGHT = 300;
+window.addEventListener('keyup', function(event) { Key.onKeyup(event); }, false);
+window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, false);
+
+	// document.addEventListener('keydown',onDocumentKeyDown,false);
+	// document.addEventListener('keyup',onDocumentKeyUp,false);
+
+	const WIDTH = 1920;
+	const HEIGHT = 1080;
 
 	const VIEW_ANGLE = 45;
 	const ASPECT = WIDTH / HEIGHT;	
@@ -49,25 +55,74 @@
 	pointLight.position.y = 50;
 	pointLight.position.z = 130;
 
-function Sphere(){
-	
-	var radius = 50;
-	var segments = 16;
-	var rings = 16;
-	
-	this.texture = new THREE.MeshLambertMaterial({color: 0xCC0000});
+	//keyup down helper
+	var Key = {
+	  _pressed: {},
 
-	this.obj = new THREE.Mesh(
-		new  THREE.SphereGeometry(radius,
-			segments,
-			rings),
+	  LEFT: 37,
+	  UP: 38,
+	  RIGHT: 39,
+	  DOWN: 40,
+	  
+	  isDown: function(keyCode) {
+	    return this._pressed[keyCode];
+	  },
+	  
+	  onKeydown: function(event) {
+	    this._pressed[event.keyCode] = true;
+	  },
+	  
+	  onKeyup: function(event) {
+	    delete this._pressed[event.keyCode];
+	  }
+	};
 
-		this.texture)
 
-	this.obj.position.z = -300;
+	function Sphere(){
+		
+		var radius = 50;
+		var segments = 16;
+		var rings = 16;
+		
+		this.texture = new THREE.MeshLambertMaterial({color: 0xCC0000});
 
+		this.obj = new THREE.Mesh(
+			new  THREE.SphereGeometry(radius,
+				segments,
+				rings),
 
-}
+			this.texture)
+
+		this.obj.position.z = -600;
+
+	}
+
+var delta = 5; 
+
+	Sphere.prototype.moveLeft = function() {
+	  this.obj.position.x -= delta;
+	};
+
+	Sphere.prototype.moveRight = function() {
+	 this.obj.position.x += delta;
+	};
+
+	Sphere.prototype.moveUp = function() {
+	  this.obj.position.y += delta;
+	};
+
+	Sphere.prototype.moveDown = function() {
+	  this.obj.position.y -= delta;
+	};
+
+	Sphere.prototype.update = function(){
+
+	  if (Key.isDown(Key.UP)) this.moveUp();
+	  if (Key.isDown(Key.LEFT)) this.moveLeft();
+	  if (Key.isDown(Key.DOWN)) this.moveDown();
+	  if (Key.isDown(Key.RIGHT)) this.moveRight();
+	}
+
 	const RADIUS = 50;
 	const SEGMENTS = 16;
 	const RINGS = 16;	
@@ -99,27 +154,6 @@ function Sphere(){
 	var amplitude = 127;
 	var center = 128;
 
-	//keyup down helper
-	var Key = {
-	  _pressed: {},
-
-	  LEFT: 37,
-	  UP: 38,
-	  RIGHT: 39,
-	  DOWN: 40,
-	  
-	  isDown: function(keyCode) {
-	    return this._pressed[keyCode];
-	  },
-	  
-	  onKeydown: function(event) {
-	    this._pressed[event.keyCode] = true;
-	  },
-	  
-	  onKeyup: function(event) {
-	    delete this._pressed[event.keyCode];
-	  }
-	};
 
 
 	//blue - purple gradient
@@ -234,36 +268,35 @@ function byte2Hex(n)
   }
 
 
-function onDocumentKeyDown(event){
+// function onDocumentKeyDown(event){
 
-	var delta = 5;
+// 	var delta = 5;
 	
-	var keycode = event.keyCode;
+// 	var keycode = event.keyCode;
 
-	switch(keycode)
-	{
-		case 37 : //left arrow 向左箭头
-		sphere.obj.position.x +=  - delta;
-		break;
-		case 38 : // up arrow 向上箭头
-		sphere.obj.position.y +=  + delta;
-		break;
-		case 39 : // right arrow 向右箭头
-		sphere.obj.position.x +=  + delta;
-		break;
-		case 40 : //down arrow向下箭头
-		sphere.obj.position.y +=  - delta;
-		break;
-	}
-}
+// 	switch(keycode)
+// 	{
+// 		case 37 : //left arrow 向左箭头
+// 		sphere.obj.position.x +=  - delta;
+// 		break;
+// 		case 38 : // up arrow 向上箭头
+// 		sphere.obj.position.y +=  + delta;
+// 		break;
+// 		case 39 : // right arrow 向右箭头
+// 		sphere.obj.position.x +=  + delta;
+// 		break;
+// 		case 40 : //down arrow向下箭头
+// 		sphere.obj.position.y +=  - delta;
+// 		break;
+// 	}
+// }
 
 function onDocumentKeyUp(){
 
 }
 
 
-	document.addEventListener('keydown',onDocumentKeyDown,false);
-	document.addEventListener('keyup',onDocumentKeyUp,false);
+
 
 	const scene = new THREE.Scene();
 
@@ -289,10 +322,13 @@ function onDocumentKeyUp(){
 		
 		sphere.texture.color.setHex(gradientColorHEX(i));
 
-		if(sphere.obj.position.z > -50 
-			|| sphere.obj.position.z < -300 ){
-			movementDirection *= -1;	  	
-		}
+		//movement
+		sphere.update();
+
+		// if(sphere.obj.position.z > -50 
+		// 	|| sphere.obj.position.z < -300 ){
+		// 	movementDirection *= -1;	  	
+		// }
 	
 
 		// sphere.position.z += movementDirection;
