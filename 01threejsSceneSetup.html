@@ -10,6 +10,16 @@
     background-image: url("https://i.imgur.com/0IWb7dn.gif");
      overflow:hidden;
 }
+div#fps {
+    position: absolute;
+    top: 0px;
+    left: 0px;    
+}
+canvas{
+   position: absolute;
+    top: 0px;
+    left: 0px;
+}
 
   </style>
 
@@ -25,7 +35,8 @@
 </head>
 
 <body>
-
+<div id="fps" style="color:white;">
+</div>
 <div id = "container"></div>
 
 </body>
@@ -37,6 +48,11 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 
 	// document.addEventListener('keydown',onDocumentKeyDown,false);
 	// document.addEventListener('keyup',onDocumentKeyUp,false);
+	var elapsedTime = 0;
+	var frameCount = 0;
+	var lastTime = 0;
+
+	lastTime = new Date().getTime();
 
 	const WIDTH = 1920;
 	const HEIGHT = 1080;
@@ -64,6 +80,14 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	  RIGHT: 39,
 	  DOWN: 40,
 	  
+
+	  allUp: function() {
+	  	return !(this._pressed[37])
+	  	&& !(this._pressed[38])
+	  	&& !(this._pressed[39])
+	  	&& !(this._pressed[40])
+	  },
+
 	  isDown: function(keyCode) {
 	    return this._pressed[keyCode];
 	  },
@@ -80,7 +104,7 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 
 	function Sphere(){
 		
-		var radius = 50;
+		var radius = 10;
 		var segments = 16;
 		var rings = 16;
 		
@@ -94,33 +118,80 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 			this.texture)
 
 		this.obj.position.z = -600;
+		
+		this.maxSpeed = 6;
+		this.initSpeed = 1;
+		this.xSpeed = this.initSpeed;
+		this.ySpeed = this.initSpeed;
+
 
 	}
 
-var delta = 5; 
 
 	Sphere.prototype.moveLeft = function() {
-	  this.obj.position.x -= delta;
+		this.accelerationX();
+	  	this.obj.position.x -= this.xSpeed;
 	};
 
 	Sphere.prototype.moveRight = function() {
-	 this.obj.position.x += delta;
+		this.accelerationX();
+	 	this.obj.position.x += this.xSpeed;
 	};
 
 	Sphere.prototype.moveUp = function() {
-	  this.obj.position.y += delta;
+		this.accelerationY();
+	  	this.obj.position.y += this.ySpeed;
 	};
 
 	Sphere.prototype.moveDown = function() {
-	  this.obj.position.y -= delta;
+		this.accelerationY();
+	  	this.obj.position.y -= this.ySpeed;
 	};
 
-	Sphere.prototype.update = function(){
+	Sphere.prototype.decreaseSpeed = function(){	
 
-	  if (Key.isDown(Key.UP)) this.moveUp();
-	  if (Key.isDown(Key.LEFT)) this.moveLeft();
-	  if (Key.isDown(Key.DOWN)) this.moveDown();
-	  if (Key.isDown(Key.RIGHT)) this.moveRight();
+	  	if (this.xSpeed > this.initSpeed)
+	  	{
+	  		this.xSpeed *= 0.85;
+	  	}
+	  	if (this.ySpeed > this.initSpeed)
+	  	{
+	  		this.ySpeed *= 0.85;
+	  	}	  	
+	
+	}
+
+	Sphere.prototype.accelerationX = function(x) {
+		 	if(this.xSpeed < this.maxSpeed){
+	  		this.xSpeed *= 1.05;
+		  }
+	}
+
+	Sphere.prototype.accelerationY = function() {
+		if(this.ySpeed < this.maxSpeed){
+		this.ySpeed *= 1.05;
+		}
+	}
+
+	Sphere.prototype.update = function(){
+		var isAarrowKey;
+		if (Key.isDown(Key.UP)) {this.moveUp(); x2 = 1;};
+		if (Key.isDown(Key.LEFT)) this.moveLeft();
+		if (Key.isDown(Key.DOWN)) this.moveDown();
+		if (Key.isDown(Key.RIGHT)) this.moveRight();
+
+		// console.log();
+
+
+	  // no movement key is pressed
+		if (Key.allUp()){
+			this.decreaseSpeed();
+		}
+
+	  sphere.texture.color.setHex(gradientColorHEX(i));
+
+	  //float up and down
+		// sphere.obj.position.y += Math.sin(i);
 	}
 
 	const RADIUS = 50;
@@ -174,7 +245,21 @@ var delta = 5;
 
 
 
+function fpsDisplay(){
+		  var now = new Date().getTime();
+	  frameCount++;
+		  elapsedTime += (now - lastTime);
 
+	lastTime = now;
+
+	if(elapsedTime >= 1000) {
+	   fps = frameCount;
+	   frameCount = 0;
+	   elapsedTime -= 1000;
+
+	   document.getElementById('fps').innerHTML = fps;
+	}
+}
 
 function wait(ms){
    var start = new Date().getTime();
@@ -318,24 +403,13 @@ function onDocumentKeyUp(){
 
 	function gameloop ()
 	{	
-		refreshGlobalVariables();
+
+		fpsDisplay();
+
+		refreshGlobalVariables();		
 		
-		sphere.texture.color.setHex(gradientColorHEX(i));
-
-		//movement
 		sphere.update();
-
-		// if(sphere.obj.position.z > -50 
-		// 	|| sphere.obj.position.z < -300 ){
-		// 	movementDirection *= -1;	  	
-		// }
-	
-
-		// sphere.position.z += movementDirection;
-		 sphere.obj.position.y += Math.sin(i);
-		// sphere.position.x -= Math.sin(i) * 6;
-
-		// console.log(sphere.position.z);
+		
 		renderer.render(scene, camera);
 
 		// Schedule the next frame.
