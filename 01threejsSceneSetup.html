@@ -74,18 +74,28 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	//keyup down helper
 	var Key = {
 	  _pressed: {},
+ 		
+ 	  SPACE: 32, // JUMP
+
+	  W: 87, // ^
+	  A: 65, //  < 
+	  S: 83, //  v
+	  D: 68, // > 
 
 	  LEFT: 37,
 	  UP: 38,
 	  RIGHT: 39,
-	  DOWN: 40,
-	  
+	  DOWN: 40,	  
 
 	  allUp: function() {
 	  	return !(this._pressed[37])
 	  	&& !(this._pressed[38])
 	  	&& !(this._pressed[39])
 	  	&& !(this._pressed[40])
+	  	&& !(this._pressed[87])
+	  	&& !(this._pressed[65])
+	  	&& !(this._pressed[83])
+	  	&& !(this._pressed[68])
 	  },
 
 	  isDown: function(keyCode) {
@@ -123,7 +133,8 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		this.initSpeed = 1;
 		this.xSpeed = this.initSpeed;
 		this.ySpeed = this.initSpeed;
-
+		this.jumpHeight = 1;
+		this.maxJump = 5; 
 
 	}
 
@@ -148,6 +159,10 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	  	this.obj.position.y -= this.ySpeed;
 	};
 
+	Sphere.prototype.jump = function(){
+
+	}
+
 	Sphere.prototype.decreaseSpeed = function(){	
 
 	  	if (this.xSpeed > this.initSpeed)
@@ -169,22 +184,37 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 
 	Sphere.prototype.accelerationY = function() {
 		if(this.ySpeed < this.maxSpeed){
-		this.ySpeed *= 1.05;
+		this.ySpeed *= 1.1;
+		} 
+	}
+
+	Sphere.prototype.jump = function (){
+		if (this.jumpHeight < this.maxJump ) {
+			this.jumpHeight *=  1.05		
 		}
+		else if ( this.jumpHeight > this.maxJump) 	{
+			this.jumpHeight = -1.1; 
+		}	
+
+		if (this.jumpHeight < this.maxJump * -1 ){
+			this.jumpHeight *= -0.85;
+		}
+
+		console.log(this.jumpHeight);
+
+		this.obj.position.y += this.jumpHeight;
 	}
 
 	Sphere.prototype.update = function(){
-		var isAarrowKey;
-		if (Key.isDown(Key.UP)) {this.moveUp(); x2 = 1;};
-		if (Key.isDown(Key.LEFT)) this.moveLeft();
-		if (Key.isDown(Key.DOWN)) this.moveDown();
-		if (Key.isDown(Key.RIGHT)) this.moveRight();
+		
+		if (Key.isDown(Key.UP) || Key.isDown(Key.W) ) this.moveUp();
+		if (Key.isDown(Key.LEFT) || Key.isDown(Key.A)) this.moveLeft();
+		if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
+		if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
+	  	
+	  	if(Key.isDown(Key.SPACE)) this.jump();	  	
 
-		// console.log();
-
-
-	  // no movement key is pressed
-		if (Key.allUp()){
+		if (Key.allUp()){ // no movement key is pressed
 			this.decreaseSpeed();
 		}
 
@@ -199,14 +229,6 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	const RINGS = 16;	
 
 	var sphere = new Sphere();
-	// const sphere = new THREE.Mesh(
-	// 	new THREE.SphereGeometry(RADIUS,
-	// 		SEGMENTS,
-	// 		RINGS),
-
-	// 	sphereMaterial)
-
-	//sphere.position.z = -300;
 
 	const container = document.querySelector('#container')
 
@@ -226,23 +248,9 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	var center = 128;
 
 
-
 	//blue - purple gradient
 	var color1 = [66,232,244]; // BLUE
 	var color2 = [204,10,181]; // Green
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function fpsDisplay(){
@@ -351,36 +359,6 @@ function byte2Hex(n)
     var nybHexString = "0123456789ABCDEF";
     return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
   }
-
-
-// function onDocumentKeyDown(event){
-
-// 	var delta = 5;
-	
-// 	var keycode = event.keyCode;
-
-// 	switch(keycode)
-// 	{
-// 		case 37 : //left arrow 向左箭头
-// 		sphere.obj.position.x +=  - delta;
-// 		break;
-// 		case 38 : // up arrow 向上箭头
-// 		sphere.obj.position.y +=  + delta;
-// 		break;
-// 		case 39 : // right arrow 向右箭头
-// 		sphere.obj.position.x +=  + delta;
-// 		break;
-// 		case 40 : //down arrow向下箭头
-// 		sphere.obj.position.y +=  - delta;
-// 		break;
-// 	}
-// }
-
-function onDocumentKeyUp(){
-
-}
-
-
 
 
 	const scene = new THREE.Scene();
