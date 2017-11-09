@@ -133,8 +133,8 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		this.initSpeed = 1;
 		this.xSpeed = this.initSpeed;
 		this.ySpeed = this.initSpeed;
-		this.jumpHeight = 1;
-		this.maxJump = 5; 
+		this.yVel = 15;
+		this.isJumping = false;
 
 	}
 
@@ -188,22 +188,22 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		} 
 	}
 
-	Sphere.prototype.jump = function (){
-		if (this.jumpHeight < this.maxJump ) {
-			this.jumpHeight *=  1.05		
-		}
-		else if ( this.jumpHeight > this.maxJump) 	{
-			this.jumpHeight = -1.1; 
-		}	
+	// Sphere.prototype.jump = function (){
+	// 	if (this.jumpHeight < this.maxJump ) {
+	// 		this.jumpHeight *=  1.05		
+	// 	}
+	// 	else if ( this.jumpHeight > this.maxJump) 	{
+	// 		this.jumpHeight = -1.1; 
+	// 	}	
 
-		if (this.jumpHeight < this.maxJump * -1 ){
-			this.jumpHeight *= -0.85;
-		}
+	// 	if (this.jumpHeight < this.maxJump * -1 ){
+	// 		this.jumpHeight *= -0.85;
+	// 	}
 
-		console.log(this.jumpHeight);
+	// 	console.log(this.jumpHeight);
 
-		this.obj.position.y += this.jumpHeight;
-	}
+	// 	this.obj.position.y += this.jumpHeight;
+	// }
 
 	Sphere.prototype.update = function(){
 		
@@ -212,7 +212,23 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
 		if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
 	  	
-	  	if(Key.isDown(Key.SPACE)) this.jump();	  	
+	  	if(Key.isDown(Key.SPACE)) this.isJumping = true;
+
+	  	if (this.isJumping){	  		
+	  		if(this.yVel > 0){
+	  			this.obj.position.y += this.yVel;
+	  			this.yVel *= -1;
+	  		}
+	  			
+	  			this.isJumping=false;
+
+	  	}
+	  	else if (this.yVel < 0) {
+	  		this.obj.position.y += this.yVel;
+	  		this.yVel = 15;
+	  	}
+
+console.log(Math.sin(i));
 
 		if (Key.allUp()){ // no movement key is pressed
 			this.decreaseSpeed();
