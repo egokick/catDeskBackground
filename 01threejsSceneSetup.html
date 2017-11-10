@@ -133,9 +133,12 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		this.initSpeed = 1;
 		this.xSpeed = this.initSpeed;
 		this.ySpeed = this.initSpeed;
+
 		this.yVel = 15;
 		this.isJumping = false;
 
+		this.x = 0;
+		this.multiplier =0.17;
 	}
 
 
@@ -207,7 +210,10 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 
 	Sphere.prototype.update = function(){
 		
-		if (Key.isDown(Key.UP) || Key.isDown(Key.W) ) this.moveUp();
+		
+		//4.7
+		
+		if (Key.isDown(Key.UP) || Key.isDown(Key.W)) this.moveUp();
 		if (Key.isDown(Key.LEFT) || Key.isDown(Key.A)) this.moveLeft();
 		if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
 		if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
@@ -215,20 +221,17 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	  	if(Key.isDown(Key.SPACE)) this.isJumping = true;
 
 	  	if (this.isJumping){	  		
-	  		if(this.yVel > 0){
-	  			this.obj.position.y += this.yVel;
-	  			this.yVel *= -1;
+
+	  		if(this.x >= 6.08)
+	  			{
+	  				this.isJumping=false;
+	  				this.x = 0;
+	  			}
+	  		else {
+  				this.x += this.multiplier;
+	  			this.obj.position.y += sinWave(this.x) * 3.9;
 	  		}
-	  			
-	  			this.isJumping=false;
-
-	  	}
-	  	else if (this.yVel < 0) {
-	  		this.obj.position.y += this.yVel;
-	  		this.yVel = 15;
-	  	}
-
-console.log(Math.sin(i));
+	  	}  	
 
 		if (Key.allUp()){ // no movement key is pressed
 			this.decreaseSpeed();
@@ -376,6 +379,12 @@ function byte2Hex(n)
     return String(nybHexString.substr((n >> 4) & 0x0F,1)) + nybHexString.substr(n & 0x0F,1);
   }
 
+
+function sinWave(x){
+//console.log(Math.sin(x));
+
+return Math.sin(x);
+}
 
 	const scene = new THREE.Scene();
 
