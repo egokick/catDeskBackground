@@ -111,6 +111,8 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 	  }
 	};
 
+var startheight=0;
+var endheight=0;
 
 	function Sphere(){
 		
@@ -138,8 +140,9 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		this.isJumping = false;
 
 		this.x = 0;
-		this.multiplier =0.17;
+		this.multiplier = 0.17;
 	}
+
 
 
 	Sphere.prototype.moveLeft = function() {
@@ -218,14 +221,31 @@ window.addEventListener('keydown', function(event) { Key.onKeydown(event); }, fa
 		if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
 		if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
 	  	
-	  	if(Key.isDown(Key.SPACE)) this.isJumping = true;
+	  	if(Key.isDown(Key.SPACE)) {
+	  		this.isJumping = true;
+	  	//	console.log('start height: ' + this.obj.position.y)
+	  		if(startheight ==0){
+	  			startheight = this.obj.position.y;
+	  		}
+	  	}
 
 	  	if (this.isJumping){	  		
 
-	  		if(this.x >= 6.08)
+	  		if(this.x >= 6.300318530718)
 	  			{
 	  				this.isJumping=false;
 	  				this.x = 0;
+	  				if(endheight ==0){
+	  			endheight = this.obj.position.y;
+	  			
+	  			if(Math.abs((Math.abs(endheight) - Math.abs(startheight))) < 2 )
+	  			{
+	  				this.obj.position.y -= (Math.abs(endheight) - Math.abs(startheight));
+	  			}	
+	  			endheight = 0;
+	  			startheight=0;
+	  		}
+
 	  			}
 	  		else {
   				this.x += this.multiplier;
