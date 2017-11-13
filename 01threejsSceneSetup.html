@@ -292,6 +292,10 @@ var endheight=0;
 	var color2 = [204,10,181]; // Green
 
 
+
+
+
+
 function fpsDisplay(){
 		  var now = new Date().getTime();
 	  frameCount++;
@@ -406,6 +410,14 @@ function sinWave(x){
 return Math.sin(x);
 }
 
+
+
+
+
+
+
+
+
 	const scene = new THREE.Scene();
 
 	// add to the scene
@@ -421,12 +433,58 @@ return Math.sin(x);
 
 	renderer.render(scene,camera);
 
+
+
+
+
+var onProgress = function ( xhr ) {
+			if ( xhr.lengthComputable ) {
+				var percentComplete = xhr.loaded / xhr.total * 100;
+				console.log( Math.round(percentComplete, 2) + '% downloaded' );
+			}
+		};
+var onError = function ( xhr ) {
+		};
+
+var manager = new THREE.LoadingManager();
+
+manager.onProgress = function ( item, loaded, total ) {
+	console.log( item, loaded, total );
+};
+
+var texture = new THREE.Texture();
+
+var loader = new THREE.OBJLoader( manager );
+
+var cat 
+
+loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master/cat2.obj', function ( object ) {
+	
+	object.traverse( function ( child ) {
+		if ( child instanceof THREE.Mesh ) {
+			child.material.map = texture;			
+		}
+	} );
+
+	object.position.y = 1;
+	object.position.z = -300;
+
+	scene.add( object );
+	
+
+		// console.log('positionZ ' + object.position.z);
+		// console.log('cat ' + cat.position.y);
+
+}, onProgress, onError );
+
 	requestAnimationFrame(gameloop);
 
 
 	function gameloop ()
 	{	
 
+
+		// console.log(cat.object.position.y);
 		fpsDisplay();
 
 		refreshGlobalVariables();		
@@ -439,7 +497,6 @@ return Math.sin(x);
 		requestAnimationFrame(gameloop);
 
 	}
-
 
 
   </script>
