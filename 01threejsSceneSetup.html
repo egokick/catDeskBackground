@@ -401,21 +401,6 @@ return Math.sin(x);
 
 
 
-	const scene = new THREE.Scene();
-
-	// add to the scene
-	scene.add(pointLight);
-
-	scene.add(sphere.obj);
-
-	scene.add(camera);
-
-	renderer.setSize(WIDTH, HEIGHT);
-
-	container.appendChild(renderer.domElement);
-
-	renderer.render(scene,camera);
-
 
 
 
@@ -439,27 +424,12 @@ var texture = new THREE.Texture();
 
 var loader = new THREE.OBJLoader( manager );
 
-// function Cat(){
-
-// 	this.isCatLoaded = false;
-// 	this.obj = null;
-
-// }
 var isCatLoaded = false;
 loadCat(function(catObj) {
 
 	cat = catObj;
 	scene.add( cat );
 	isCatLoaded = true;
-// 	console.log(catObj);
-// 	Cat.prototype.obj = function(){
-// 		this.obj = catObj;
-
-// 	}	
-// 	Cat.isCatLoaded = true;
-// 	cat = new Cat();
-// console.log(cat)
-// 	scene.add(cat);
 
 });
 
@@ -484,6 +454,24 @@ function loadCat(callbackStoreCat){
 }
 
 
+
+
+	const scene = new THREE.Scene();
+
+	// add to the scene
+	scene.add(pointLight);
+
+	scene.add(sphere.obj);
+
+	scene.add(camera);
+
+	renderer.setSize(WIDTH, HEIGHT);
+
+	container.appendChild(renderer.domElement);
+
+	renderer.render(scene,camera);
+
+
 	requestAnimationFrame(gameloop);
 
 
@@ -502,7 +490,7 @@ function loadCat(callbackStoreCat){
 		 if(isCatLoaded) {
 		console.log( cat.position.y );
 
-		if (cat.position.y > -110) cat.position.y -=1;
+		if (cat.position.y > -150) cat.position.y -=1;
 		else {cat.position.y = 100}
 		
 		
