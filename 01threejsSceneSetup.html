@@ -194,22 +194,6 @@ var endheight=0;
 		} 
 	}
 
-	// Sphere.prototype.jump = function (){
-	// 	if (this.jumpHeight < this.maxJump ) {
-	// 		this.jumpHeight *=  1.05		
-	// 	}
-	// 	else if ( this.jumpHeight > this.maxJump) 	{
-	// 		this.jumpHeight = -1.1; 
-	// 	}	
-
-	// 	if (this.jumpHeight < this.maxJump * -1 ){
-	// 		this.jumpHeight *= -0.85;
-	// 	}
-
-	// 	console.log(this.jumpHeight);
-
-	// 	this.obj.position.y += this.jumpHeight;
-	// }
 
 	Sphere.prototype.update = function(){
 		
@@ -223,7 +207,6 @@ var endheight=0;
 	  	
 	  	if(Key.isDown(Key.SPACE)) {
 	  		this.isJumping = true;
-	  	//	console.log('start height: ' + this.obj.position.y)
 	  		if(startheight ==0){
 	  			startheight = this.obj.position.y;
 	  		}
@@ -268,6 +251,7 @@ var endheight=0;
 	const RINGS = 16;	
 
 	var sphere = new Sphere();
+	var cat 
 
 	const container = document.querySelector('#container')
 
@@ -405,7 +389,6 @@ function byte2Hex(n)
 
 
 function sinWave(x){
-//console.log(Math.sin(x));
 
 return Math.sin(x);
 }
@@ -456,26 +439,50 @@ var texture = new THREE.Texture();
 
 var loader = new THREE.OBJLoader( manager );
 
-var cat 
+// function Cat(){
 
-loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master/cat2.obj', function ( object ) {
-	
-	object.traverse( function ( child ) {
-		if ( child instanceof THREE.Mesh ) {
-			child.material.map = texture;			
-		}
-	} );
+// 	this.isCatLoaded = false;
+// 	this.obj = null;
 
-	object.position.y = 1;
-	object.position.z = -300;
+// }
+var isCatLoaded = false;
+loadCat(function(catObj) {
 
-	scene.add( object );
-	
+	cat = catObj;
+	scene.add( cat );
+	isCatLoaded = true;
+// 	console.log(catObj);
+// 	Cat.prototype.obj = function(){
+// 		this.obj = catObj;
 
-		// console.log('positionZ ' + object.position.z);
-		// console.log('cat ' + cat.position.y);
+// 	}	
+// 	Cat.isCatLoaded = true;
+// 	cat = new Cat();
+// console.log(cat)
+// 	scene.add(cat);
 
-}, onProgress, onError );
+});
+
+function loadCat(callbackStoreCat){
+
+		loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master/cat2.obj', function ( object ) {
+		
+		object.traverse( function ( child ) {
+			if ( child instanceof THREE.Mesh ) {
+				child.material.map = texture;			
+			}
+		} );
+
+		object.position.y = 1;
+		object.position.z = -300;
+
+		// 
+		
+		callbackStoreCat(object);			
+
+	}, onProgress, onError );
+}
+
 
 	requestAnimationFrame(gameloop);
 
@@ -483,8 +490,6 @@ loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master
 	function gameloop ()
 	{	
 
-
-		// console.log(cat.object.position.y);
 		fpsDisplay();
 
 		refreshGlobalVariables();		
@@ -492,7 +497,17 @@ loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master
 		sphere.update();
 		
 		renderer.render(scene, camera);
+		
 
+		 if(isCatLoaded) {
+		console.log( cat.position.y );
+
+		if (cat.position.y > -110) cat.position.y -=1;
+		else {cat.position.y = 100}
+		
+		
+	 }
+		
 		// Schedule the next frame.
 		requestAnimationFrame(gameloop);
 
