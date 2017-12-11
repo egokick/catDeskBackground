@@ -12,15 +12,18 @@
 
 <!-- Color Helper--> 
 <script src="helper/colorHandler.js"></script>
-<script src="helper/fps.js"></script>
 
-<!-- Sphere + Controls -->
+
+<!-- Scene Objects -->
 <script src="/Objects/Sphere.js"></script>
 <script src="/Objects/Cat.js"></script>
 
 
 <!-- Controls -->
 <script src="/wasd.js"></script>
+
+<!-- Interface -->
+<script src="helper/fps.js"></script>
 
 </head>
 
@@ -35,10 +38,6 @@
 
 
 var sphere = new Sphere();
- // var controls = sphere;
-// var gui = new dat.GUI();
-// gui.add(controls, 'x', 0, 10.5);
-// gui.add(controls, 'maxSpeed', 0, 100);
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
 

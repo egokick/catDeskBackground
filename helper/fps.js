@@ -8,7 +8,7 @@ lastTime = new Date().getTime();
 function fpsDisplay(){
 	  var now = new Date().getTime();
 	  frameCount++;
-		  elapsedTime += (now - lastTime);
+		elapsedTime += (now - lastTime);
 
 	lastTime = now;
 
@@ -22,3 +22,8 @@ function fpsDisplay(){
 	}
 	 document.getElementById('fps').innerHTML = fps;
 }
+
+
+var gui = new dat.GUI();
+gui.add(sphere, 'x', 0, 10.5);
+gui.add(sphere, 'maxSpeed', 0, 100);
