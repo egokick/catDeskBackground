@@ -37,10 +37,10 @@
 <script>
 
 
-var sphere = new Sphere();
+	var sphere = new Sphere();
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
-
+	
 	// set its position
 	pointLight.position.x = 10;
 	pointLight.position.y = 50;
@@ -73,8 +73,9 @@ var sphere = new Sphere();
 	renderer.render(scene,camera);
 	requestAnimationFrame(gameloop);
 
+
 	function gameloop ()
-	{	
+	{			
 		fpsDisplay();
 		refreshGlobalVariables();				
 		sphere.update();		
@@ -86,6 +87,7 @@ var sphere = new Sphere();
 
 	}
 	
+
   </script>
   
 </html>

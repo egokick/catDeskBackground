@@ -88,53 +88,48 @@ function Sphere(){
 	}
 
 
-	Sphere.prototype.update = function(){
-		
-		
-		//4.7
+Sphere.prototype.update = function(){		
 
-		if (Key.isDown(Key.UP) || Key.isDown(Key.W)) this.moveUp();
-		if (Key.isDown(Key.LEFT) || Key.isDown(Key.A)) this.moveLeft();
-		if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
-		if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
-	  	
-	  	if(Key.isDown(Key.SPACE)) {
-	  		this.isJumping = true;
-	  		if(startheight ==0){
-	  			startheight = this.obj.position.y;
-	  		}
-	  	}
+	if (Key.isDown(Key.UP) || Key.isDown(Key.W)) this.moveUp();
+	if (Key.isDown(Key.LEFT) || Key.isDown(Key.A)) this.moveLeft();
+	if (Key.isDown(Key.DOWN) || Key.isDown(Key.S)) this.moveDown();
+	if (Key.isDown(Key.RIGHT) || Key.isDown(Key.D)) this.moveRight();
+  	
+  	if(Key.isDown(Key.SPACE)) {
+  		this.isJumping = true;
+  		if(startheight ==0){
+  			startheight = this.obj.position.y;
+  		}
+  	}
+  	
+  	if (this.isJumping){
+  		if(this.x >= 6.300318530718){
+  				this.isJumping=false;
+  				this.x = 0;
+  				if(endheight ==0){
+  			endheight = this.obj.position.y;
+  			
+  			if(Math.abs((Math.abs(endheight) - Math.abs(startheight))) < 2 )
+  			{
+  				this.obj.position.y -= (Math.abs(endheight) - Math.abs(startheight));
+  			}	
+  			endheight = 0;
+  			startheight=0;
+  		}
 
-	  	if (this.isJumping){	  		
+  			}
+  		else {
+				this.x += this.multiplier;
+  			this.obj.position.y += sinWave(this.x) * 3.9;
+  		}
+  	}  	
 
-	  		if(this.x >= 6.300318530718)
-	  			{
-	  				this.isJumping=false;
-	  				this.x = 0;
-	  				if(endheight ==0){
-	  			endheight = this.obj.position.y;
-	  			
-	  			if(Math.abs((Math.abs(endheight) - Math.abs(startheight))) < 2 )
-	  			{
-	  				this.obj.position.y -= (Math.abs(endheight) - Math.abs(startheight));
-	  			}	
-	  			endheight = 0;
-	  			startheight=0;
-	  		}
-
-	  			}
-	  		else {
-  				this.x += this.multiplier;
-	  			this.obj.position.y += sinWave(this.x) * 3.9;
-	  		}
-	  	}  	
-
-		if (Key.allUp()){ // no movement key is pressed
-			this.decreaseSpeed();
-		}
-
-	  sphere.texture.color.setHex(gradientColorHEX(i));
-
-	  //float up and down
-		// sphere.obj.position.y += Math.sin(i);
+	if (Key.allUp()){ // no movement key is pressed
+		this.decreaseSpeed();
 	}
+
+  sphere.texture.color.setHex(gradientColorHEX(i));
+
+  //float up and down
+	// sphere.obj.position.y += Math.sin(i);
+}
