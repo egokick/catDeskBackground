@@ -1,0 +1,92 @@
+
+<!doctype html>
+<head>
+ <meta charset="utf-8">
+ <link rel="stylesheet" type="text/css" href="style.css">
+
+<!-- Libaries --> 
+<script src="lib/three.js"></script>  
+<script src="lib/OBJLoader.js"></script>
+<script src="lib/OrbitControls.js"></script>
+<script src="lib/dat.gui.js"></script>
+
+<!-- Color Helper--> 
+<script src="helper/colorHandler.js"></script>
+<script src="helper/fps.js"></script>
+
+<!-- Sphere + Controls -->
+<script src="/Objects/Sphere.js"></script>
+<script src="/Objects/Cat.js"></script>
+
+
+<!-- Controls -->
+<script src="/wasd.js"></script>
+
+</head>
+
+<body>
+
+<div id="fps" style="color:white;"></div>
+<div id="container"></div>
+
+</body>
+
+<script>
+
+
+var sphere = new Sphere();
+ // var controls = sphere;
+// var gui = new dat.GUI();
+// gui.add(controls, 'x', 0, 10.5);
+// gui.add(controls, 'maxSpeed', 0, 100);
+
+	const pointLight = new THREE.PointLight(0xFFFFFF);
+
+	// set its position
+	pointLight.position.x = 10;
+	pointLight.position.y = 50;
+	pointLight.position.z = 130;
+
+	const WIDTH = 1920;
+	const HEIGHT = 1080;
+	const VIEW_ANGLE = 45;
+	const ASPECT = WIDTH / HEIGHT;	
+	const NEAR = 0.1;
+	const FAR = 10000;
+
+	const scene = new THREE.Scene();
+	const renderer = new THREE.WebGLRenderer( { alpha: true } );
+	
+	renderer.shadowMapEnabled = true;
+	
+	const camera = new THREE.PerspectiveCamera(
+		VIEW_ANGLE,
+		ASPECT,
+		NEAR,
+		FAR);
+
+	// add to the scene
+	scene.add(pointLight);
+	scene.add(sphere.obj);
+	scene.add(camera);
+	renderer.setSize(WIDTH, HEIGHT);
+	document.getElementById("container").appendChild(renderer.domElement)
+	renderer.render(scene,camera);
+	requestAnimationFrame(gameloop);
+
+	function gameloop ()
+	{	
+		fpsDisplay();
+		refreshGlobalVariables();				
+		sphere.update();		
+		renderer.render(scene, camera);		
+        if(isCatLoaded) {if (cat.position.y > -150) cat.position.y -=1;
+		else {cat.position.y = 100}	
+	 }
+		requestAnimationFrame(gameloop);
+
+	}
+	
+  </script>
+  
+</html>

@@ -1,0 +1,17 @@
+
+body {    
+	background-image: url("anim.gif");
+ 	overflow:hidden;
+}
+
+div#fps {
+    position: absolute;
+    top: 0px;
+    left: 0px;    
+}
+
+canvas{
+   position: absolute;
+    top: 0px;
+    left: 0px;
+}
