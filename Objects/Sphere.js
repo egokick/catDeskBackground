@@ -24,6 +24,9 @@ function Sphere(){
 
 		this.texture)
 
+	this.obj.castShadow = true;
+	this.obj.receiveShadow = true;
+
 	this.obj.position.z = -600;
 	
 	this.maxSpeed = 6;

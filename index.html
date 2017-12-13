@@ -38,9 +38,10 @@
 
 
 	var sphere = new Sphere();
+ 	displayGUI();
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
-	
+
 	// set its position
 	pointLight.position.x = 10;
 	pointLight.position.y = 50;
@@ -73,7 +74,6 @@
 	renderer.render(scene,camera);
 	requestAnimationFrame(gameloop);
 
-
 	function gameloop ()
 	{			
 		fpsDisplay();
@@ -81,12 +81,25 @@
 		sphere.update();		
 		renderer.render(scene, camera);		
         if(isCatLoaded) {if (cat.position.y > -150) cat.position.y -=1;
-		else {cat.position.y = 100}	
-	 }
+		else {cat.position.y = 135;
+	}	}
+
+		//apply a transform to  all objects in scene
+		 scene.traverse(function(obj) {
+			 if (obj instanceof THREE.Mesh) 
+			 {
+				 obj.rotation.x+=0.01;
+				 obj.rotation.y+=0.01;
+				 obj.rotation.z+=0.01;
+				 console.log(obj);
+ 			}
+ 		});
+
 		requestAnimationFrame(gameloop);
 
 	}
 	
+
 
   </script>
   

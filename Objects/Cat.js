@@ -2,7 +2,10 @@ var cat
 
 var isCatLoaded = false;
 var texture = new THREE.Texture();
-var catMaterial = new THREE.MeshBasicMaterial({color: 0x42c5f4});
+var catMaterial = new THREE.MeshLambertMaterial({color:
+ 0x42c5f4});
+
+// new THREE.MeshBasicMaterial({color: 0x42c5f4});
 var loader = new THREE.OBJLoader( manager );
 var manager = new THREE.LoadingManager();
 
