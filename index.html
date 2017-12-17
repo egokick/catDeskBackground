@@ -31,7 +31,7 @@
 
 <body>
 
-<div id="fps" style="color:white;"></div>
+<div id="fps"></div>
 <div id="container"></div>
 
 </body>
@@ -41,7 +41,6 @@
 	var i = 0;
 	var sphere = new Sphere();
 
- 	// displayGUI();
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -49,6 +48,8 @@
 	pointLight.position.x = 10;
 	pointLight.position.y = 50;
 	pointLight.position.z = 130;
+ 	
+ 	displayGUI();
 
 	const WIDTH = 1920;
 	const HEIGHT = 1080;

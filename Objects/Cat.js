@@ -4,13 +4,11 @@ var cat = {
 	// ,update: new Mobility()
 }
 
-
 var isCatLoaded = false;
 var texture = new THREE.Texture();
 var catMaterial = new THREE.MeshLambertMaterial({color:
  0x42c5f4});
 
-// new THREE.MeshBasicMaterial({color: 0x42c5f4});
 var loader = new THREE.OBJLoader( manager );
 var manager = new THREE.LoadingManager();
 
@@ -25,7 +23,7 @@ loadCat(function(catObj) {
 	cat.move = new Mobility(cat.obj);	
 	scene.add( cat.obj );
 	isCatLoaded = true;
-
+document.title = 'Help'
 });
 
 manager.onProgress = function ( item, loaded, total ) {

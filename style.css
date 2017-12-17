@@ -8,6 +8,7 @@ div#fps {
     position: absolute;
     top: 0px;
     left: 0px;    
+    color:gray;
 }
 
 canvas{

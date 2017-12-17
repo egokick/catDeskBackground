@@ -20,11 +20,18 @@ function fpsDisplay(){
 	 document.getElementById('fps').innerHTML = fps;
 }
 
-// function displayGUI(){
+function displayGUI(){
 
-// 	var controls = sphere;
 
-// 	var gui = new dat.GUI();
-// 	gui.add(controls, 'x', 0, 10.5);
-// 	gui.add(controls, 'maxSpeed', 0, 100);
-// }
+	var gui = new dat.GUI();
+	gui.add(pointLight.position, 'x', 0, 1000);
+	gui.add(pointLight.position, 'y', 0, 1000);
+	gui.add(pointLight.position, 'z', 0, 1000);	
+	
+	gui.add(pointLight.color, 'r', 0.0, 1.0);	
+	gui.add(pointLight.color, 'g', 0.0, 1.0);	
+	gui.add(pointLight.color, 'b', 0.0, 1.0);	
+
+	
+
+}
