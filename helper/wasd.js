@@ -12,6 +12,8 @@
 	  A: 65, //  < 
 	  S: 83, //  v
 	  D: 68, // > 
+	  Q: 81, // Rotate Counter Clockwise 
+	  R: 82, // Rotate Clockwise
 
 	  LEFT: 37,
 	  UP: 38,

@@ -2,6 +2,7 @@
 <!doctype html>
 <head>
  <meta charset="utf-8">
+<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
  <link rel="stylesheet" type="text/css" href="style.css">
 
 <!-- Libaries --> 
@@ -12,6 +13,7 @@
 
 <!-- Color Helper--> 
 <script src="helper/colorHandler.js"></script>
+<script src="helper/Mobility.js"></script>
 
 
 <!-- Scene Objects -->
@@ -20,7 +22,7 @@
 
 
 <!-- Controls -->
-<script src="/wasd.js"></script>
+<script src="helper/wasd.js"></script>
 
 <!-- Interface -->
 <script src="helper/fps.js"></script>
@@ -36,9 +38,10 @@
 
 <script>
 
-
+	var i = 0;
 	var sphere = new Sphere();
- 	displayGUI();
+
+ 	// displayGUI();
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -78,28 +81,16 @@
 	{			
 		fpsDisplay();
 		refreshGlobalVariables();				
-		sphere.update();		
-		renderer.render(scene, camera);		
-        if(isCatLoaded) {if (cat.position.y > -150) cat.position.y -=1;
-		else {cat.position.y = 135;
-	}	}
+		sphere.move.update();
+		sphere.texture.color.setHex(gradientColorHEX(i));
 
-		//apply a transform to  all objects in scene
-		 scene.traverse(function(obj) {
-			 if (obj instanceof THREE.Mesh) 
-			 {
-				 obj.rotation.x+=0.01;
-				 obj.rotation.y+=0.01;
-				 obj.rotation.z+=0.01;
-				 console.log(obj);
- 			}
- 		});
+		if(isCatLoaded) cat.move.update();
+		renderer.render(scene, camera);							
 
 		requestAnimationFrame(gameloop);
 
 	}
 	
-
 
   </script>
   

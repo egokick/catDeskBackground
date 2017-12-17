@@ -1,4 +1,9 @@
-var cat
+
+var cat = {
+	obj: {}
+	// ,update: new Mobility()
+}
+
 
 var isCatLoaded = false;
 var texture = new THREE.Texture();
@@ -11,13 +16,17 @@ var manager = new THREE.LoadingManager();
 
 loadCat(function(catObj) {
 
-	cat = catObj;
-	scene.add( cat );
+	cat.obj = catObj;
+	// how do I add new functions to the root level of the variable "cat" without deleting existing 
+	// functions. I want to call cat.update() instead of having to call cat.move.update()... 
+	// TODO. read more and figure this out...#
+	// I may want to call obj.update for multiple things
+	 // e.g. update  movement + perception + thinking at the same time with obj.update rather than 3 separate update calls
+	cat.move = new Mobility(cat.obj);	
+	scene.add( cat.obj );
 	isCatLoaded = true;
 
 });
-
-
 
 manager.onProgress = function ( item, loaded, total ) {
 	console.log( item, loaded, total );
@@ -40,8 +49,6 @@ function loadCat(callbackStoreCat){
 		object.position.y = 1;
 		object.position.z = -300;
 
-		// 
-		
 		callbackStoreCat(object);			
 
 	}, onProgress, onError );
@@ -55,3 +62,4 @@ var onProgress = function ( xhr ) {
 		};
 var onError = function ( xhr ) {
 		};
+
