@@ -14,7 +14,7 @@ function Sphere(){
 	this.obj.castShadow = true;
 	this.obj.receiveShadow = true;
 
-	this.obj.position.z = -600;
+	this.obj.position.z = -300;
 	this.move = new Mobility(this.obj);	
 	
 	//grrrr I want this to be called from sphere.move.update(), how can I do that!?

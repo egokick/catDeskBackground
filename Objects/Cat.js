@@ -44,7 +44,7 @@ function loadCat(callbackStoreCat){
 			}
 		} );
 
-		object.position.y = 1;
+		object.position.y = -68;
 		object.position.z = -300;
 
 		callbackStoreCat(object);			

@@ -63,11 +63,20 @@
 	
 	renderer.shadowMapEnabled = true;
 	
-	const camera = new THREE.PerspectiveCamera(
-		VIEW_ANGLE,
-		ASPECT,
-		NEAR,
-		FAR);
+	// const camera = new THREE.PerspectiveCamera(
+	// 	VIEW_ANGLE,
+	// 	ASPECT,
+	// 	NEAR,
+	// 	FAR);
+
+const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
+ 	, WIDTH / 6//right
+ 	, HEIGHT / 6 //top
+ 	, HEIGHT / - 6 //bottom
+ 	, -200 //near
+ 	, 500  //far
+ 	, -1//zoom
+ 	);
 
 	// add to the scene
 	scene.add(pointLight);
