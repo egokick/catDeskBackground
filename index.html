@@ -10,6 +10,8 @@
 <script src="lib/OBJLoader.js"></script>
 <script src="lib/OrbitControls.js"></script>
 <script src="lib/dat.gui.js"></script>
+<script src="lib/tween.js"></script>
+
 
 <!-- Color Helper--> 
 <script src="helper/colorHandler.js"></script>
@@ -40,7 +42,7 @@
 
 	var i = 0;
 	var sphere = new Sphere();
-
+console.log(new Mobility().update)
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -87,14 +89,50 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	renderer.render(scene,camera);
 	requestAnimationFrame(gameloop);
 
-	function gameloop ()
-	{			
-		fpsDisplay();
-		refreshGlobalVariables();				
+
+	var posSrc = {pos: 1};
+
+	var tween = new TWEEN.Tween(posSrc).to({pos: 0}, 5000);
+	tween.easing(TWEEN.Easing.Sinusoidal.InOut);
+
+	var tweenBack = new TWEEN.Tween(posSrc).to({pos: 1}, 5000);
+	tweenBack.easing(TWEEN.Easing.Sinusoidal.InOut);
+
+	tween.chain(tweenBack);
+	tweenBack.chain(tween);
+
+	var tween = new TWEEN.Tween({x: 10}).to({x: 3},
+	 10000).easing(TWEEN.Easing.Elastic.InOut).onUpdate( function ()
+	 {
+		objectsUpdate(); // update the mesh
+	})
+
+
+	function objectsUpdate(){
+		
+		var count = 0;
+		var pos = this.pos;
+
+
 		sphere.move.update();
 		sphere.texture.color.setHex(gradientColorHEX(i));
 
 		if(isCatLoaded) cat.move.update();
+	}
+	console.log(sphere.obj.geometry.vertices);
+
+	function gameloop ()
+	{			
+		fpsDisplay();
+		refreshGlobalVariables();		
+		objectsUpdate();
+
+		// for(i=0;i<7;i++){
+		// 	sphere.obj.geometry.vertices[i].x +=  100
+		// 	sphere.obj.geometry.vertices[i].z +=  100
+		// 	sphere.obj.geometry.vertices[i].y +=  100
+		// }
+		
 		renderer.render(scene, camera);							
 
 		requestAnimationFrame(gameloop);
@@ -105,3 +143,4 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
   </script>
   
 </html>
+

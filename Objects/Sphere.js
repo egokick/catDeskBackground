@@ -7,15 +7,26 @@ function Sphere(){
 	
 	this.texture = new THREE.MeshLambertMaterial({color: 0xCC0000});
 
-	this.obj = new THREE.Mesh(
-		new  THREE.SphereGeometry(radius, segments,	rings),
-		this.texture)
+	this.obj =
+	 new THREE.Mesh(
+		new  THREE.CubeGeometry( 25, 25, 25, 1, 1, 1, this.texture, 1 ),
+		this.texture )
+
+	for(i=0;i<8;i++){
+			this.obj.geometry.vertices[i].x +=  100
+			this.obj.geometry.vertices[i].z +=  100
+			this.obj.geometry.vertices[i].y +=  100
+		}
+		
+	 // new THREE.Mesh(
+		// new  THREE.SphereGeometry(radius, segments,	rings),
+		// this.texture)
 
 	this.obj.castShadow = true;
 	this.obj.receiveShadow = true;
 
 	this.obj.position.z = -300;
-	this.move = new Mobility(this.obj);	
+	this.move = new Mobility(this.obj);		
 	
 	//grrrr I want this to be called from sphere.move.update(), how can I do that!?
 		// Sphere.move.update.prototype.changeColor = function(){		
