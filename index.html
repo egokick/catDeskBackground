@@ -108,18 +108,33 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	})
 
 
+	var fun = 0 
 	function objectsUpdate(){
 		
 		var count = 0;
 		var pos = this.pos;
 
-
 		sphere.move.update();
+
+		if (fun < sphere.obj.geometry.vertices.length - 55){		
+			if (sphere.obj.geometry.vertices[fun].x > 40){fun += 33}
+
+			for(i=fun;i<fun+12;i++){
+				sphere.obj.geometry.vertices[i].x +=  1
+				sphere.obj.geometry.vertices[i].z +=  2.7
+				sphere.obj.geometry.vertices[i].y +=  1
+			}
+		}
+
+		sphere.obj.geometry.verticesNeedUpdate = true;
 		sphere.texture.color.setHex(gradientColorHEX(i));
+		
+		// sphere.obj.geometry.computeFaceNormals() 
+		// sphere.texture.needsUpdate = true;
+		// sphere.obj.geometry.colorsNeedUpdate = true;
 
 		if(isCatLoaded) cat.move.update();
 	}
-	console.log(sphere.obj.geometry.vertices);
 
 	function gameloop ()
 	{			
@@ -127,14 +142,7 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 		refreshGlobalVariables();		
 		objectsUpdate();
 
-		// for(i=0;i<7;i++){
-		// 	sphere.obj.geometry.vertices[i].x +=  100
-		// 	sphere.obj.geometry.vertices[i].z +=  100
-		// 	sphere.obj.geometry.vertices[i].y +=  100
-		// }
-		
-		renderer.render(scene, camera);							
-
+		renderer.render(scene, camera);	
 		requestAnimationFrame(gameloop);
 
 	}

@@ -24,9 +24,9 @@ function displayGUI(){
 
 
 	var gui = new dat.GUI();
-	gui.add(pointLight.position, 'x', 0, 1000);
-	gui.add(pointLight.position, 'y', 0, 1000);
-	gui.add(pointLight.position, 'z', 0, 1000);	
+	gui.add(pointLight.position, 'x', -1000, 1000);
+	gui.add(pointLight.position, 'y', -1000, 1000);
+	gui.add(pointLight.position, 'z', -1000, 1000);	
 	
 	gui.add(pointLight.color, 'r', 0.0, 1.0);	
 	gui.add(pointLight.color, 'g', 0.0, 1.0);	
