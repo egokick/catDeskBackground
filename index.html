@@ -131,22 +131,22 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 
 		sphere.move.update();
 
-		// if (fun < sphere.obj.geometry.vertices.length - 55){		
-		// 	if (sphere.obj.geometry.vertices[fun].x > 40 ||  sphere.obj.geometry.vertices[fun].x <-40){fun += 33}
+		if (fun < sphere.obj.geometry.vertices.length - 55){		
+			if (sphere.obj.geometry.vertices[fun].x > 40 ||  sphere.obj.geometry.vertices[fun].x <-40){fun += 33}
 
-		// 	for(i=fun;i<fun+12;i++){
-		// 		sphere.obj.geometry.vertices[i].x -= 1.7
-		// 		sphere.obj.geometry.vertices[i].z +=  2.7
-		// 		sphere.obj.geometry.vertices[i].y -=  1
-		// 	}
-		// }
+			for(i=fun;i<fun+12;i++){
+				sphere.obj.geometry.vertices[i].x -= 1.7
+				sphere.obj.geometry.vertices[i].z +=  2.7
+				sphere.obj.geometry.vertices[i].y -=  1
+			}
+		}
 
-		// sphere.obj.geometry.verticesNeedUpdate = true;
-		// sphere.texture.color.setHex(gradientColorHEX(i));
+		sphere.obj.geometry.verticesNeedUpdate = true;
+		sphere.texture.color.setHex(gradientColorHEX(i));
 		
-		// sphere.obj.geometry.computeFaceNormals() 
-		// sphere.texture.needsUpdate = true;
-		// sphere.obj.geometry.colorsNeedUpdate = true;
+		sphere.obj.geometry.computeFaceNormals() 
+		sphere.texture.needsUpdate = true;
+		sphere.obj.geometry.colorsNeedUpdate = true;
 
 		if(isCatLoaded) cat.move.update();
 	}
