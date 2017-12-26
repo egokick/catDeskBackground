@@ -40,9 +40,24 @@
 
 <script>
 
+	var controls = new function () {
+	 
+	 // set to 0.01 to make sure dat.gui shows correct output
+	 this.influence1 = 0.01;
+     this.influence2 = 0.01;
+	 
+	 this.update = function () {
+		sphere.obj.morphTargetInfluences[0] = controls.influence1;		 		 		
+	 };
+
+}
+	// gui.add(controls, 'influence1', 0.0, 1.0).onChange(controls.update);;	
+
+
+
 	var i = 0;
 	var sphere = new Sphere();
-console.log(new Mobility().update)
+	// sphere.obj.geometry.computeMorphNormals();
 
 	const pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -90,22 +105,22 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	requestAnimationFrame(gameloop);
 
 
-	var posSrc = {pos: 1};
+	// var posSrc = {pos: 1};
 
-	var tween = new TWEEN.Tween(posSrc).to({pos: 0}, 5000);
-	tween.easing(TWEEN.Easing.Sinusoidal.InOut);
+	// var tween = new TWEEN.Tween(posSrc).to({pos: 0}, 5000);
+	// tween.easing(TWEEN.Easing.Sinusoidal.InOut);
 
-	var tweenBack = new TWEEN.Tween(posSrc).to({pos: 1}, 5000);
-	tweenBack.easing(TWEEN.Easing.Sinusoidal.InOut);
+	// var tweenBack = new TWEEN.Tween(posSrc).to({pos: 1}, 5000);
+	// tweenBack.easing(TWEEN.Easing.Sinusoidal.InOut);
 
-	tween.chain(tweenBack);
-	tweenBack.chain(tween);
+	// tween.chain(tweenBack);
+	// tweenBack.chain(tween);
 
-	var tween = new TWEEN.Tween({x: 10}).to({x: 3},
-	 10000).easing(TWEEN.Easing.Elastic.InOut).onUpdate( function ()
-	 {
-		objectsUpdate(); // update the mesh
-	})
+	// var tween = new TWEEN.Tween({x: 10}).to({x: 3},
+	//  10000).easing(TWEEN.Easing.Elastic.InOut).onUpdate( function ()
+	//  {
+	// 	objectsUpdate(); // update the mesh
+	// })
 
 
 	var fun = 0 
@@ -116,18 +131,18 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 
 		sphere.move.update();
 
-		if (fun < sphere.obj.geometry.vertices.length - 55){		
-			if (sphere.obj.geometry.vertices[fun].x > 40){fun += 33}
+		// if (fun < sphere.obj.geometry.vertices.length - 55){		
+		// 	if (sphere.obj.geometry.vertices[fun].x > 40 ||  sphere.obj.geometry.vertices[fun].x <-40){fun += 33}
 
-			for(i=fun;i<fun+12;i++){
-				sphere.obj.geometry.vertices[i].x +=  1
-				sphere.obj.geometry.vertices[i].z +=  2.7
-				sphere.obj.geometry.vertices[i].y +=  1
-			}
-		}
+		// 	for(i=fun;i<fun+12;i++){
+		// 		sphere.obj.geometry.vertices[i].x -= 1.7
+		// 		sphere.obj.geometry.vertices[i].z +=  2.7
+		// 		sphere.obj.geometry.vertices[i].y -=  1
+		// 	}
+		// }
 
-		sphere.obj.geometry.verticesNeedUpdate = true;
-		sphere.texture.color.setHex(gradientColorHEX(i));
+		// sphere.obj.geometry.verticesNeedUpdate = true;
+		// sphere.texture.color.setHex(gradientColorHEX(i));
 		
 		// sphere.obj.geometry.computeFaceNormals() 
 		// sphere.texture.needsUpdate = true;
@@ -140,13 +155,16 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	{			
 		fpsDisplay();
 		refreshGlobalVariables();		
+		
 		objectsUpdate();
 
 		renderer.render(scene, camera);	
 		requestAnimationFrame(gameloop);
 
 	}
-	
+	console.log(sphere)
+
+
 
   </script>
   

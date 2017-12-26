@@ -32,6 +32,6 @@ function displayGUI(){
 	gui.add(pointLight.color, 'g', 0.0, 1.0);	
 	gui.add(pointLight.color, 'b', 0.0, 1.0);	
 
-	
+	gui.add(controls, 'influence1', 0.0, 1.0).onChange(controls.update);
 
 }
