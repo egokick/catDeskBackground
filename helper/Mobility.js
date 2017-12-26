@@ -59,10 +59,12 @@ class Mobility {
 
 			this.jump = function(){
 				
-				this.isJumping = true;
-		  		if (this.startheight == 0)
-		  		{
-		  			this.startheight = obj.position.y;
+				if(!this.isJumping){
+					this.isJumping = true;
+			  		if (this.startheight == 0)
+			  		{	  					
+			  			this.startheight = obj.position.y;			  			
+			  		}
 		  		}
 			}
 			
@@ -78,17 +80,18 @@ class Mobility {
 			  			
 			  			if(Math.abs((Math.abs(this.endheight) - Math.abs(this.startheight))) < 2 )
 			  			{
-			  				obj.position.y -= (Math.abs(this.endheight) - Math.abs(this.startheight));
+			  				obj.position.y = this.startheight;
 			  			}	
-			  			this.endheight = 0;
-			  			this.startheight=0;
-			  		}
+ 			  			this.endheight = 0;
+			  			this.startheight=0;			
+			  		}			  		
 				}
 		  		else 
 		  		{
 					this.x += this.multiplier;
 		  			obj.position.y += sinWave(this.x) * 3.9;
 		  		}
+
 			}
 
 			this.update = function(){		
@@ -108,6 +111,8 @@ class Mobility {
 				{ // no movement key is pressed
 					this.decreaseSpeed();
 				}
+		  
+
 			}
 
 	}
