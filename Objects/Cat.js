@@ -23,6 +23,7 @@ loadCat(function(catObj) {
 	cat.move = new Mobility(cat.obj);	
 	scene.add( cat.obj );
 	isCatLoaded = true;
+
 document.title = 'Help'
 });
 

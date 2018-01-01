@@ -9,9 +9,12 @@ function Sphere(){
  true, color: 0xCC0000});
 
 
-	this.geom = 	new  THREE.SphereGeometry(radius, segments,	rings)
+	this.geom =new  THREE.CubeGeometry( 100, 25, 25, 1, 1, 1, this.texture, 1 )
+	 	// new  THREE.SphereGeometry(radius, segments,	rings)
 	
-	this.cubeTarget1 = new THREE.SphereGeometry( radius * 2, segments, rings)
+	this.cubeTarget1 = new  THREE.CubeGeometry( 25, 25, 25, 1, 1, 1, this.texture, 1 )
+
+	// new THREE.SphereGeometry( radius * 2, segments, rings)
 	
 	this.geom.morphTargets[0] =  {name: 'mt1', vertices: this.cubeTarget1.vertices};
 	this.geom.computeMorphNormals();

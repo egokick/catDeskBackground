@@ -51,10 +51,6 @@
 	 };
 
 }
-	// gui.add(controls, 'influence1', 0.0, 1.0).onChange(controls.update);;	
-
-
-
 	var i = 0;
 	var sphere = new Sphere();
 	// sphere.obj.geometry.computeMorphNormals();
@@ -103,48 +99,24 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	document.getElementById("container").appendChild(renderer.domElement)
 	renderer.render(scene,camera);
 	requestAnimationFrame(gameloop);
-
-
-	// var posSrc = {pos: 1};
-
-	// var tween = new TWEEN.Tween(posSrc).to({pos: 0}, 5000);
-	// tween.easing(TWEEN.Easing.Sinusoidal.InOut);
-
-	// var tweenBack = new TWEEN.Tween(posSrc).to({pos: 1}, 5000);
-	// tweenBack.easing(TWEEN.Easing.Sinusoidal.InOut);
-
-	// tween.chain(tweenBack);
-	// tweenBack.chain(tween);
-
-	// var tween = new TWEEN.Tween({x: 10}).to({x: 3},
-	//  10000).easing(TWEEN.Easing.Elastic.InOut).onUpdate( function ()
-	//  {
-	// 	objectsUpdate(); // update the mesh
-	// })
-
-
-	var fun = 0 
-	function objectsUpdate(){
 		
-		var count = 0;
-		var pos = this.pos;
-
+	var morph = 0.01
+	function objectsUpdate(){				
+		
 		sphere.move.update();
 
-		if (fun < sphere.obj.geometry.vertices.length - 55){		
-			if (sphere.obj.geometry.vertices[fun].x > 40 ||  sphere.obj.geometry.vertices[fun].x <-40){fun += 33}
-
-			for(i=fun;i<fun+12;i++){
-				sphere.obj.geometry.vertices[i].x -= 1.7
-				sphere.obj.geometry.vertices[i].z +=  2.7
-				sphere.obj.geometry.vertices[i].y -=  1
-			}
+		if ( (morph > 0 && sphere.obj.morphTargetInfluences[0] >= 1)
+			|| (morph < 0 && sphere.obj.morphTargetInfluences[0] <= 0)
+			){
+			morph *= -1
 		}
+		
+		sphere.obj.morphTargetInfluences[0] += morph
 
 		sphere.obj.geometry.verticesNeedUpdate = true;
 		sphere.texture.color.setHex(gradientColorHEX(i));
 		
-		sphere.obj.geometry.computeFaceNormals() 
+		
 		sphere.texture.needsUpdate = true;
 		sphere.obj.geometry.colorsNeedUpdate = true;
 
@@ -154,16 +126,12 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 	function gameloop ()
 	{			
 		fpsDisplay();
-		refreshGlobalVariables();		
-		
+		refreshGlobalVariables();
+		TWEEN.update();
 		objectsUpdate();
-
 		renderer.render(scene, camera);	
 		requestAnimationFrame(gameloop);
-
 	}
-	console.log(sphere)
-
 
 
   </script>
