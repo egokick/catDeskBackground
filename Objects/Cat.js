@@ -47,6 +47,7 @@ function loadCat(callbackStoreCat){
 
 		object.position.y = -68;
 		object.position.z = -300;
+		object.scale.set(7, 7, 7)
 
 		callbackStoreCat(object);			
 
