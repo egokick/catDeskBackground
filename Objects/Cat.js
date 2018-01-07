@@ -15,9 +15,6 @@ var manager = new THREE.LoadingManager();
 loadCat(function(catObj) {
 
 	cat.obj = catObj;
-
-// cat.obj = new THREE.Mesh( cat.obj, catMaterial);
-
 	// how do I add new functions to the root level of the variable "cat" without deleting existing 
 	// functions. I want to call cat.update() instead of having to call cat.move.update()... 
 	// TODO. read more and figure this out...#
@@ -34,16 +31,9 @@ manager.onProgress = function ( item, loaded, total ) {
 	console.log( item, loaded, total );
 };
 
-
 function loadCat(callbackStoreCat){	
-		loader.load( 'cat3.obj', function ( object ) {		
-
-		object.children[0].name = "Cat03"
-		loader.load('catWalk01.obj', function(objectMT1) {
-			object.scale.set(7, 7, 7)
-			// object.children[0].geometry.morphTargets[0] =  {name: 'mt1', vertices: objectMT1.children[0].cubeTarget1.vertices}; 
-		})	
-
+		loader.load( 'https://raw.githubusercontent.com/egokick/catDeskBackground/master/cat2.obj', function ( object ) {
+		
 		object.traverse( function ( child ) {
 			if ( child instanceof THREE.Mesh ) {
 				child.material.map = texture;			
@@ -54,8 +44,6 @@ function loadCat(callbackStoreCat){
 
 			}
 		} );
-
-		// object = new THREE.Mesh( object, catMaterial);
 
 		object.position.y = -68;
 		object.position.z = -300;
