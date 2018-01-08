@@ -9,12 +9,83 @@ var texture = new THREE.Texture();
 var catMaterial = new THREE.MeshLambertMaterial({color:
  0x42c5f4});
 
-var loader = new THREE.OBJLoader( manager );
+var loader = new THREE.JSONLoader( manager );
 var manager = new THREE.LoadingManager();
+manager.onProgress = function ( item, loaded, total ) {
+	console.log( item, loaded, total );
+};
 
-loadCat(function(catObj) {
+loadJSONModel('cat3.js' , function(model) {
+	
+	model.scale.set(7,7,7)	
+	model.position.y = -68;
+	model.position.z = -300;
+	model.scale.set(7, 7, 7)
+	model.material.map = texture;			
+	model.material = catMaterial;				
+	model.castShadow = true;
+	model.receiveShadow = true;
 
-	cat.obj = catObj;
+	cat.obj = model;
+
+	cat.move = new Mobility(cat.obj);	
+	scene.add( cat.obj );
+	isCatLoaded = true;
+	
+});
+
+function loadJSONModel(url, model){	
+
+		loader.load( url, function ( geometry, materials ) {									
+			
+			// function t(obj)
+
+			// loader.load('catWalk01.js', function(geometryA, materialsA){
+			// 	t(geometryA)
+			// })			
+
+			var geo = new THREE.Geometry();
+
+			geo.vertices = geometry.vertices
+			
+			// geo.morphTargets[0] = {name: 'mt2', vertices: geometryA.vertices};
+			// geo.computeMorphNormals()
+			
+			var mat = new THREE.MeshLambertMaterial({color: 0xffffff, morphTargets: true }); 
+
+			var catObj = new THREE.Mesh( geo, mat );	
+
+			model(catObj);
+
+		}
+	);
+}
+
+// loadJSONModel('catWalk01.js' , function(model1) {
+// 				geometry.morphTargets[0] = {name: 'mt1', vertices: model1.geometry.vertices};
+
+// 	})
+
+	// function ( catObj ) {		
+
+		// catObj.catObjren[0].name = "Cat03"
+		// loader.load('catWaqlk01.obj', function(catObjMT1) {
+		// 	catObj.scale.set(7, 7, 7)
+		// 	// catObj.catObjren[0].geometry.morphTargets[0] =  {name: 'mt1', vertices: catObjMT1.catObjren[0].cubeTarget1.vertices}; 
+		// })	
+
+		// catObj.traverse( function ( catObj ) {
+		// 	if ( catObj instanceof THREE.Mesh ) {
+		// 		catObj.material.map = texture;			
+		// 		catObj.material = catMaterial;
+				
+		// 		catObj.castShadow = true;
+		// 		catObj.receiveShadow = true;
+
+		// 	}
+		// } );
+		// catObj = new THREE.Mesh( catObj, catMaterial);
+
 
 // cat.obj = new THREE.Mesh( cat.obj, catMaterial);
 
@@ -23,48 +94,6 @@ loadCat(function(catObj) {
 	// TODO. read more and figure this out...#
 	// I may want to call obj.update for multiple things
 	 // e.g. update  movement + perception + thinking at the same time with obj.update rather than 3 separate update calls
-	cat.move = new Mobility(cat.obj);	
-	scene.add( cat.obj );
-	isCatLoaded = true;
-
-document.title = 'Help'
-});
-
-manager.onProgress = function ( item, loaded, total ) {
-	console.log( item, loaded, total );
-};
-
-
-function loadCat(callbackStoreCat){	
-		loader.load( 'cat3.obj', function ( object ) {		
-
-		object.children[0].name = "Cat03"
-		loader.load('catWalk01.obj', function(objectMT1) {
-			object.scale.set(7, 7, 7)
-			// object.children[0].geometry.morphTargets[0] =  {name: 'mt1', vertices: objectMT1.children[0].cubeTarget1.vertices}; 
-		})	
-
-		object.traverse( function ( child ) {
-			if ( child instanceof THREE.Mesh ) {
-				child.material.map = texture;			
-				child.material = catMaterial;
-				
-				child.castShadow = true;
-				child.receiveShadow = true;
-
-			}
-		} );
-
-		// object = new THREE.Mesh( object, catMaterial);
-
-		object.position.y = -68;
-		object.position.z = -300;
-		object.scale.set(7, 7, 7)
-
-		callbackStoreCat(object);			
-
-	}, onProgress, onError );
-}
 
 var onProgress = function ( xhr ) {
 			if ( xhr.lengthComputable ) {

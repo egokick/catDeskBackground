@@ -10,19 +10,13 @@ function Sphere(){
 
 
 	this.geom =new  THREE.CubeGeometry( 100, 25, 25, 1, 1, 1, this.texture, 1 )
-	 	// new  THREE.SphereGeometry(radius, segments,	rings)
 	
 	this.cubeTarget1 = new  THREE.CubeGeometry( 25, 25, 25, 1, 1, 1, this.texture, 1 )
-// console.log(this.cubeTarget1)
-	// new THREE.SphereGeometry( radius * 2, segments, rings)
 	
 	this.geom.morphTargets[0] =  {name: 'mt1', vertices: this.cubeTarget1.vertices};
 	this.geom.computeMorphNormals();
 
 	this.obj = new THREE.Mesh( this.geom, this.texture)
-	 // new THREE.Mesh(
-		// new  THREE.CubeGeometry( 25, 25, 25, 1, 1, 1, this.texture, 1 ),
-		// this.texture )
 
 	this.obj.castShadow = true;
 	this.obj.receiveShadow = true;
