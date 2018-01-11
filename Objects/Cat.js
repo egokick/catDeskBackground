@@ -27,11 +27,12 @@ loadJSONModel('cat3.js' , function(model) {
 	model.receiveShadow = true;
 
 	cat.obj = model;
+	cat.obj.name = "cat"
 
 	cat.move = new Mobility(cat.obj);	
 	scene.add( cat.obj );
 	isCatLoaded = true;
-	
+
 });
 
 function loadJSONModel(url, model){	
@@ -47,13 +48,15 @@ function loadJSONModel(url, model){
 			var geo = new THREE.Geometry();
 
 			geo.vertices = geometry.vertices
-			
+			geo.faces = geometry.faces
+				
 			// geo.morphTargets[0] = {name: 'mt2', vertices: geometryA.vertices};
 			// geo.computeMorphNormals()
 			
 			var mat = new THREE.MeshLambertMaterial({color: 0xffffff, morphTargets: true }); 
 
 			var catObj = new THREE.Mesh( geo, mat );	
+			catObj.geometry.verticesNeedUpdate = true;
 
 			model(catObj);
 
