@@ -38,27 +38,35 @@ loadJSONModel('cat3.js' , function(model) {
 function loadJSONModel(url, model){	
 
 		loader.load( url, function ( geometry, materials ) {									
-			
-			// function t(obj)
 
-			// loader.load('catWalk01.js', function(geometryA, materialsA){
-			// 	t(geometryA)
-			// })			
+var catObj
+			var mat
+		 loader.load('catWalk01.js', function(geometryA, materialsA){			
+		 		// console.log(geometryA.vertices)
+		 		// console.log(geometry.vertices)
+
+			var mt1 = new THREE.Geometry();
+			mt1.vertices = geometryA.vertices
+			// mt1.faces = geometryA.faces
 
 			var geo = new THREE.Geometry();
-
 			geo.vertices = geometry.vertices
 			geo.faces = geometry.faces
 				
-			// geo.morphTargets[0] = {name: 'mt2', vertices: geometryA.vertices};
-			// geo.computeMorphNormals()
-			
-			var mat = new THREE.MeshLambertMaterial({color: 0xffffff, morphTargets: true }); 
+			  geo.morphTargets[0] = {name: 'mt1', vertices: geometryA.vertices};			 
+				  	
+		  	setTimeout(function() {
+		  		 geo.computeMorphNormals();
+		  		 mat = new THREE.MeshLambertMaterial({color: 0xffffff, morphTargets: true }); 
+				catObj = new THREE.Mesh( geo, mat );	
+				catObj.geometry.verticesNeedUpdate = true;
 
-			var catObj = new THREE.Mesh( geo, mat );	
-			catObj.geometry.verticesNeedUpdate = true;
+				model(catObj);
 
-			model(catObj);
+		  	},1000);
+
+	
+})
 
 		}
 	);
