@@ -7,7 +7,7 @@ var cat = {
 var isCatLoaded = false;
 var texture = new THREE.Texture();
 var catMaterial = new THREE.MeshLambertMaterial({color:
- 0x42c5f4});
+ 0x42c5f4, morphTargets: true });
 
 var loader = new THREE.JSONLoader( manager );
 var manager = new THREE.LoadingManager();
@@ -15,14 +15,15 @@ manager.onProgress = function ( item, loaded, total ) {
 	console.log( item, loaded, total );
 };
 
-loadJSONModel('cat3.js' , function(model) {
+loadJSONModel('cat03.js' , function(model) {
 	
 	model.scale.set(7,7,7)	
 	model.position.y = -68;
 	model.position.z = -300;
 	model.scale.set(7, 7, 7)
 	model.material.map = texture;			
-	model.material = catMaterial;				
+	model.material = catMaterial;			
+	model.geometry.computeMorphNormals();	
 	model.castShadow = true;
 	model.receiveShadow = true;
 
@@ -41,7 +42,7 @@ function loadJSONModel(url, model){
 
 var catObj
 			var mat
-		 loader.load('catWalk01.js', function(geometryA, materialsA){			
+		 loader.load('cat02.js', function(geometryA, materialsA){			
 		 		// console.log(geometryA.vertices)
 		 		// console.log(geometry.vertices)
 
@@ -57,7 +58,7 @@ var catObj
 				  	
 		  	setTimeout(function() {
 		  		 geo.computeMorphNormals();
-		  		 mat = new THREE.MeshLambertMaterial({color: 0xffffff, morphTargets: true }); 
+		  		 mat = new THREE.MeshLambertMaterial({color:  0x42c5f4, morphTargets: true }); 
 				catObj = new THREE.Mesh( geo, mat );	
 				catObj.geometry.verticesNeedUpdate = true;
 

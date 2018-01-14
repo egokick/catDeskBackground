@@ -52,7 +52,7 @@
 	}
 
 	var i = 0;
-	var sphere = new Sphere();
+	// var sphere = new Sphere();
 	
 	// console.log(sphere)
 
@@ -94,41 +94,24 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 
 	// add to the scene	
 	scene.add(pointLight);	
-	scene.add(sphere.obj);
+	// scene.add(sphere.obj);
 	scene.add(camera);
 	renderer.setSize(WIDTH, HEIGHT);
 	document.getElementById("container").appendChild(renderer.domElement)
 	renderer.render(scene,camera);
 	requestAnimationFrame(gameloop);
 
-	var morph = 0.01
-	function objectsUpdate(){				
-		
-		sphere.move.update();
-
-		if ( (morph > 0 && sphere.obj.morphTargetInfluences[0] >= 1)
-			|| (morph < 0 && sphere.obj.morphTargetInfluences[0] <= 0)
-			){
-			morph *= -1
-		}
-		
-		sphere.obj.morphTargetInfluences[0] += morph
-
-		sphere.obj.geometry.verticesNeedUpdate = true;
-		sphere.texture.color.setHex(gradientColorHEX(i));
-		
-		
-		sphere.texture.needsUpdate = true;
-		sphere.obj.geometry.colorsNeedUpdate = true;
-
+	function objectsUpdate(){
 		if(isCatLoaded)
 		{
 			cat.move.update()
-			  // console.log(cat.obj.morphTargetInfluences[0])
-			  // console.log(cat)
-			   cat.obj.morphTargetInfluences[0] = 1 ;
-			   cat.obj.geometry.verticesNeedUpdate = true;
 
+			if (cat.move.isWalking) 
+			{
+				cat.obj.morphTargetInfluences[0] = (Math.sin(i ) + 1) / 2
+				cat.obj.geometry.verticesNeedUpdate = true;
+			}
+			
 		};
 	}
 
@@ -142,35 +125,6 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 		requestAnimationFrame(gameloop);
 	}
 
-
-
-
-// instantiate a loader
-// var loader2 = new THREE.JSONLoader();
-
-// // load a resource
-// loader2.load(
-// 	// resource URL
-// 	'cat3.js',
-
-// 	// onLoad callback
-// 	function ( geometry, materials ) {
-// 		var material = materials[ 0 ];
-// 		var object = new THREE.Mesh( geometry, material );
-// 		 object.scale.set(7,7,7)
-// 		scene.add( object );
-// 	},
-
-// 	// onProgress callback
-// 	function ( xhr ) {
-// 		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-// 	},
-
-// 	// onError callback
-// 	function( err ) {
-// 		console.log( 'An error happened' );
-// 	}
-// );
   </script>
   
 </html>

@@ -4,7 +4,8 @@ class Mobility {
 	constructor(obj)
 	{
 		this.isJumping = false;
-		this.maxSpeed = 6;
+		this.isWalking = false;
+		this.maxSpeed = 1.5;
 		this.initSpeed = 1;
 		this.xSpeed = this.initSpeed;
 		this.ySpeed = this.initSpeed;
@@ -28,11 +29,13 @@ class Mobility {
 		this.moveLeft = function() {
 				this.accelerationX();
 			  	obj.position.x -= this.xSpeed;
+			  	this.isWalking = true;
 			};
 
 			this.moveRight = function() {
 				this.accelerationX();
 			 	obj.position.x +=  this.xSpeed;
+			 	this.isWalking = true;
 			};
 
 			this.moveUp = function() {
@@ -109,9 +112,11 @@ class Mobility {
 
 				if (Key.allUp())
 				{ // no movement key is pressed
+					this.isWalking = false;
 					this.decreaseSpeed();
 				}
 		  
+
 
 			}
 
