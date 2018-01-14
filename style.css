@@ -16,3 +16,9 @@ canvas{
     top: 0px;
     left: 0px;
 }
+div#hunger {
+    top: 20px;
+    color: darkred;
+    position: fixed;
+    left: 5px;
+}

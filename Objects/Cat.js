@@ -14,7 +14,7 @@ var manager = new THREE.LoadingManager();
 manager.onProgress = function ( item, loaded, total ) {
 	console.log( item, loaded, total );
 };
-
+var hunger = 100
 loadJSONModel('cat03.js' , function(model) {
 	
 	model.scale.set(7,7,7)	
@@ -29,6 +29,7 @@ loadJSONModel('cat03.js' , function(model) {
 
 	cat.obj = model;
 	cat.obj.name = "cat"
+	cat.hunger = hunger;
 
 	cat.move = new Mobility(cat.obj);	
 	scene.add( cat.obj );
@@ -69,40 +70,6 @@ var catObj
 		}
 	);
 }
-
-// loadJSONModel('catWalk01.js' , function(model1) {
-// 				geometry.morphTargets[0] = {name: 'mt1', vertices: model1.geometry.vertices};
-
-// 	})
-
-	// function ( catObj ) {		
-
-		// catObj.catObjren[0].name = "Cat03"
-		// loader.load('catWaqlk01.obj', function(catObjMT1) {
-		// 	catObj.scale.set(7, 7, 7)
-		// 	// catObj.catObjren[0].geometry.morphTargets[0] =  {name: 'mt1', vertices: catObjMT1.catObjren[0].cubeTarget1.vertices}; 
-		// })	
-
-		// catObj.traverse( function ( catObj ) {
-		// 	if ( catObj instanceof THREE.Mesh ) {
-		// 		catObj.material.map = texture;			
-		// 		catObj.material = catMaterial;
-				
-		// 		catObj.castShadow = true;
-		// 		catObj.receiveShadow = true;
-
-		// 	}
-		// } );
-		// catObj = new THREE.Mesh( catObj, catMaterial);
-
-
-// cat.obj = new THREE.Mesh( cat.obj, catMaterial);
-
-	// how do I add new functions to the root level of the variable "cat" without deleting existing 
-	// functions. I want to call cat.update() instead of having to call cat.move.update()... 
-	// TODO. read more and figure this out...#
-	// I may want to call obj.update for multiple things
-	 // e.g. update  movement + perception + thinking at the same time with obj.update rather than 3 separate update calls
 
 var onProgress = function ( xhr ) {
 			if ( xhr.lengthComputable ) {

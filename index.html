@@ -30,6 +30,7 @@
 <body>
 
 <div id="fps"></div>
+<div id="hunger">ss</div>
 <div id="container"></div>
 
 </body>
@@ -102,10 +103,14 @@ const camera = new THREE.OrthographicCamera( WIDTH / - 6 //left
 		{
 			cat.move.update()
 
+
+			cat.hunger -= 0.01;
+			if (cat.hunger <= 0){isCatLoaded = false}
 			if (cat.move.isWalking) 
 			{
 				cat.obj.morphTargetInfluences[0] = (Math.sin(i ) + 1) / 2
 				cat.obj.geometry.verticesNeedUpdate = true;
+
 			}
 			
 		};

@@ -18,6 +18,7 @@ function fpsDisplay(){
 	   elapsedTime -= 1000;
 	}
 	 document.getElementById('fps').innerHTML = fps;
+	 document.getElementById('hunger').innerHTML = cat.hunger;
 }
 
 function displayGUI(){
