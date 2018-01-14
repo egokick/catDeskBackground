@@ -56,15 +56,12 @@ var catObj
 				
 			  geo.morphTargets[0] = {name: 'mt1', vertices: geometryA.vertices};			 
 				  	
-		  	setTimeout(function() {
 		  		 geo.computeMorphNormals();
 		  		 mat = new THREE.MeshLambertMaterial({color:  0x42c5f4, morphTargets: true }); 
 				catObj = new THREE.Mesh( geo, mat );	
 				catObj.geometry.verticesNeedUpdate = true;
 
 				model(catObj);
-
-		  	},1000);
 
 	
 })
